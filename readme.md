@@ -1,4 +1,4 @@
-# Trade Republic Exporter pour Portfolio Performance
+# Trade Republic Exporter API Data Extractor
 
 > _Work in progress / Travail en cours_
 
