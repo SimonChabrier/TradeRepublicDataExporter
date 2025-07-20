@@ -43,3 +43,8 @@ _This project is a work in progress. Features and UI are evolving._
 **Inspired by** : [Misterbural/TradeRepublic-History-Exporter-For-PortfolioPerformance](https://github.com/Misterbural/TradeRepublic-History-Exporter-For-PortfolioPerformance)
 
 ---
+
+
+## 🚀 Running the Project
+
+node server.js
