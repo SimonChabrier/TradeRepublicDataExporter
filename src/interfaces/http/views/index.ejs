@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TR Data Connector</title>
+    <link href="/style/bootstrap.min.css" rel="stylesheet" />
+    <link href="/style/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid d-flex flex-row align-items-center justify-content-between">
+        <div>
+          <button class="btn btn-sm btn-secondary me-2" id="filterToggle">
+            <i class="bi bi-funnel"></i>
+          </button>
+          <button class="btn btn-sm btn-primary" id="exportBtn">Récupérer les données</button>
+        </div>
+        <span class="navbar-brand mb-0 h1 ms-auto">TR Data Connector</span>
+      </div>
+    </nav>
+    <aside id="filterSidebar" class="bg-light">
+      <form id="filterForm" class="d-flex flex-column gap-2">
+        <% headers.forEach(function(h, idx) { %>
+        <% if (h === 'Date') { %>
+        <div>
+          <div class="input-group">
+            <span class="input-group-text"><%= h %></span>
+            <input type="date" class="form-control filter-input" data-col="<%= idx %>" data-role="from" placeholder="Du" />
+            <input type="date" class="form-control filter-input" data-col="<%= idx %>" data-role="to" placeholder="Au" />
+            <button type="button" class="btn btn-outline-secondary reset-filter">&times;</button>
+          </div>
+        </div>
+        <% } else { %>
+        <div>
+          <div class="input-group">
+            <input
+              type="<%= ['Quantite','Frais','Taxes','Total'].includes(h) ? 'number' : 'text' %>"
+              class="form-control filter-input"
+              data-col="<%= idx %>"
+              placeholder="<%= h %>"
+            />
+            <button type="button" class="btn btn-outline-secondary reset-filter">&times;</button>
+          </div>
+        </div>
+        <% } %>
+        <% }); %>
+      </form>
+      <section id="statsSection" class="mt-3">
+        <h5>Récapitulatif des mouvements</h5>
+        <div class="table-responsive">
+          <table id="statsTable" class="table table-sm table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th>Catégorie</th>
+                <th>Opérations</th>
+                <th>Montant total</th>
+                <th>Moyenne</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-type="Depot"><td>Dépôt</td><td class="count"></td><td class="total"></td><td class="avg"></td></tr>
+              <tr data-type="Achat"><td>Achat</td><td class="count"></td><td class="total"></td><td class="avg"></td></tr>
+              <tr data-type="Vente"><td>Vente</td><td class="count"></td><td class="total"></td><td class="avg"></td></tr>
+              <tr data-type="Dividendes"><td>Dividendes</td><td class="count"></td><td class="total"></td><td class="avg"></td></tr>
+              <tr data-type="Interets"><td>Intérêts</td><td class="count"></td><td class="total"></td><td class="avg"></td></tr>
+              <tr data-type="Retrait"><td>Retrait</td><td class="count"></td><td class="total"></td><td class="avg"></td></tr>
+              <tr data-type="Autre"><td>Autre</td><td class="count"></td><td class="total"></td><td class="avg"></td></tr>
+              <tr class="table-primary net-row">
+                <th>Bilan net</th>
+                <th></th>
+                <th id="netTotal" colspan="2"></th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </aside>
+    <div class="container-fluid mt-4">
+      <% if (rows.length === 0) { %>
+      <p>No data available.</p>
+      <% } else { %>
+      <div class="table-responsive">
+        <table id="dataTable" class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <% headers.forEach(function(h) { %>
+              <th><%= h %></th>
+              <% }); %>
+            </tr>
+          </thead>
+          <tbody>
+            <% rows.forEach(function(row) { %>
+            <tr>
+              <% row.forEach(function(c) { %>
+              <td><%= c %></td>
+              <% }); %>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+
+    <div class="modal fade" id="codeModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Saisir le code SMS</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" class="form-control" id="smsCode" placeholder="Code" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="confirmCode">Valider</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/stats.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/filter.js"></script>
+  </body>
+</html>

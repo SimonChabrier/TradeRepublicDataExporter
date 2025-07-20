@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "csv-writer": "^1.6.0",
+    "ws": "^8.18.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
+    "ejs": "^3.1.9",
+    "bootstrap": "^5.3.3"
+  },
+  "scripts": {
+    "postinstall": "mkdir -p public/style public/js && cp node_modules/bootstrap/dist/css/bootstrap.min.css public/style/ && cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js public/js/"
+  }
+}
